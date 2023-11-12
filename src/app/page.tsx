@@ -1,113 +1,239 @@
-import Image from 'next/image'
+'use client'
+import React, { ChangeEvent, useState,useEffect ,FormEvent} from 'react';
+import Head from 'next/head';
+import interact from 'interactjs';  
+import Image from 'next/image';
+import axios from 'axios'
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+interface Position{
+ x:number,
+ y:number
 }
+const Home: React.FC = () => {
+  const [uploadedImage, setUploadedImage] = useState<string>("");
+  const [position,setPosition ] = useState<Position >({
+    x:0,
+    y:0
+  })
+  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+   
+    console.log();
+    if (file) {
+      
+      
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+      
+        const imageDataUrl = reader.result as string;
+        // console.log(reader);
+       
+        
+        setUploadedImage(imageDataUrl);
+      };
+
+    }
+  };
+  const uploadToServer = async (event : any) => {
+    // const body = new FormData();
+    // body.append("file", uploadedImage);
+    // body.append("x",position.x.toString());
+    // body.append("y",position.y.toString());
+
+  // // JSON.parse(body)
+  // let body = JSON.stringify(uploadedImage)
+  // console.log(body);
+  
+
+  console.log(uploadedImage);
+  
+    const {data} = await axios.post("/api",uploadedImage,{
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(data);
+    
+  };
+  const calculatePercentage = (coordinate : number, imageSize :number):number => (coordinate / imageSize) * 100;
+  const imageSize = {
+    width: 1196,  // replace with the actual width of the image
+    height: 924   // replace with the actual height of the image
+  };
+  // Assuming imageSize is the original size of the image
+  const imageWidth = imageSize.width; // replace with actual image width
+  const imageHeight = imageSize.height; // replace with actual image height
+  
+  // const elementX = 100; // replace with actual X coordinate of the HTML element
+  // const elementY = 50; // replace with actual Y coordinate of the HTML element
+  
+
+  
+  const getCor = () => {
+    const image: HTMLImageElement | null = document.getElementById('image') as HTMLImageElement;
+    const overlay: HTMLElement | null = document.getElementById('var');
+   
+    if (image && overlay) {
+      const rectImage = image.getBoundingClientRect();
+      const rectDraggable = overlay.getBoundingClientRect();
+
+      const relativeTop = rectDraggable.top - rectImage.top;
+      const relativeLeft = rectDraggable.left - rectImage.left;
+      const xPercentage = calculatePercentage(relativeLeft, imageWidth);
+      const yPercentage = calculatePercentage(relativeTop, imageHeight);
+      setPosition({
+        x:xPercentage,
+        y:yPercentage
+      })
+       
+      console.log(xPercentage,yPercentage);
+      console.log('Relative Top:', relativeTop);
+      console.log('Relative Left:', relativeLeft);
+    }
+  };
+  
+  
+  
+  
+  useEffect(() => {
+    
+    const dragMoveListener = (event: any) => {
+      const target = event.target;
+      const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+      const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+      target.style.transform = `translate(${x}px, ${y}px)`;
+      target.setAttribute('data-x', x);
+      target.setAttribute('data-y', y);
+    };
+
+    const dragEndListener = (event: any) => {
+      const target = event.target;
+
+      // Your logic on drag end, if needed
+    };
+
+    interact('.draggable').draggable({
+      inertia: true,
+      autoScroll: true,
+      modifiers: [
+        interact.modifiers.restrictRect({
+          restriction: "parent",
+          endOnly: true,
+        }),
+      ],
+      listeners: {
+        move: dragMoveListener,
+        end: dragEndListener,
+      },
+    });
+  }, [])
+  
+
+
+  //   interact("#dropzoneB").dropzone({
+  //     accept: ".itemB",
+  //     overlap: 0.75,
+  //     ondragenter: onDragEnter,
+  //     ondragleave: onDragLeave,
+  //     ondrop: onDrop,
+  //   });
+  
+  
+  const [file, setFile] = useState<File | null>(null);
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!file) {
+      console.error('No file selected');
+      return;
+    }
+
+    
+
+    const data =  new FormData();
+    data.set('file', file);
+    // data.append('xcor',"90");
+    console.log(data.get('file'));
+    // const body={
+      
+    //   data:data,
+    //   arr :[
+    //     {
+    //       xcor:"90",
+    //       ycor:"90"
+    //     }
+    //   ]
+    // }
+    try {
+      console.log("this is body",data);
+      
+      const result = await fetch('/api/', {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: data,
+      });
+
+      const parsedResult = await result.json();
+
+      console.log(parsedResult);
+
+      if (parsedResult.success) {
+        alert('File uploaded successfully');
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
+  const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    setFile(selectedFile || null);
+  };
+ 
+  
+ 
+  
+  return (
+    <>
+    <div>
+      <div id="var" className="draggable itemA" style={{marginTop:"150px"}}>AB</div>
+    
+    
+    {/* <input type="file" accept="image/*" onChange={handleImageUpload} /> */}
+    <form onSubmit={onSubmit}>
+        <input
+          type="file"
+          name="file"
+          onChange={onFileChange}
+        />
+        <button type="submit">Upload Image</button>
+      </form>
+    </div>
+    {/* <YourComponent/> */}
+      <Head>
+        <title>Next.js Image Upload</title>
+        <meta name="description" content="Image upload and display with Next.js" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+    <div className="container">
+    {uploadedImage && (
+          <Image id="image" src={uploadedImage} className='interact dropzone' alt="Uploaded"  width={500}
+          height={500}
+          />
+        )}
+      {/* <div id="dropzoneB" className="interact dropzone">Dropzone B</div> */}
+      <button onClick={getCor}>click</button>
+      <button onClick={uploadToServer}>click to upload</button>
+    </div>
+
+    
+    </>
+  );
+};
+
+export default Home;
