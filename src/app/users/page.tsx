@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react';
 import { useState, ChangeEvent, FormEvent ,useEffect} from 'react';
 import interact from 'interactjs';  
 
@@ -7,9 +8,11 @@ interface Position{
   x:number,
   y:number
  }
-export default function Home() {
+export default function Home(jsonData:any) {
+  let inputElement = <div id="var" className="draggable itemA" style={{marginTop:"10px"}}>name</div>
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
+  const [input, setinput] = useState <Array<JSX.Element>>([inputElement])
   const [position,setPosition ] = useState<Position >({
     x:0,
     y:0
@@ -32,8 +35,8 @@ export default function Home() {
       const xPercentage = calculatePercentage(relativeLeft, 1196);
       const yPercentage = calculatePercentage(relativeTop, 924);
       setPosition({
-        x:xPercentage,
-        y:yPercentage
+        x:Math.round(relativeLeft),
+        y:Math.round(relativeTop)
       })
        
       console.log(xPercentage,yPercentage);
@@ -51,11 +54,9 @@ export default function Home() {
 
     console.log(file);
     let dataobj = {
-      names:[{
-        na:"lokregs"
-      }],
-X:19,
-Y:10
+      data:jsonData,
+X:position.x,
+Y:position.y
     }
     const data = new FormData();
     data.set('file', file);
@@ -74,7 +75,7 @@ console.log(data.get('file'));
       console.log(parsedResult);
 
       if (parsedResult.success) {
-        console.log('File uploaded successfully');
+        alert('File uploaded successfully');
       }
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -85,6 +86,7 @@ console.log(data.get('file'));
     const file = e.target.files?.[0];
     if (file) {
       
+      console.log("this is file change");
       
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -100,7 +102,23 @@ console.log(data.get('file'));
     }
     setFile(file||null);
   };
-
+  const addInp = ()=>{
+    console.log("added input");
+    
+    
+    let newInput =    <div id="var" className="draggable itemA" style={{marginTop:"10px"}}><input type='text' /></div>
+   setinput([...input,newInput])
+}
+const remInp = () => {
+  console.log("remove input");
+  if (input.length > 0) {
+    // Remove the last element from the state
+    const updatedElements = [...input];
+    updatedElements.pop();
+    setinput(updatedElements);
+  }
+  
+}
   useEffect(() => {
     
     const dragMoveListener = (event: any) => {
@@ -137,7 +155,7 @@ console.log(data.get('file'));
 
   return (
     <main>
-      <h1>Upload Image</h1>
+   
       <form onSubmit={onSubmit}>
         <input
           type="file"
@@ -146,12 +164,24 @@ console.log(data.get('file'));
         />
         <button type="submit">Upload Image</button>
       </form>
-      <div id="var" className="draggable itemA" style={{marginTop:"10px"}}>AB</div>
+      <button className='p-5 bg-slate-600 text-xl text-white' onClick={addInp}>+</button>
+      <button className='p-5 bg-slate-600 text-xl text-white' onClick={remInp}>-</button>
+      {
+        input.map((element,index)=>{
+         return React.cloneElement(element, { key: index })
+        })
+      }
+      {/* <div id="var" className="draggable itemA" style={{marginTop:"10px"}}>
+
+        <input type='text' />
+      </div> */}
       {uploadedImage && (
           <img id="image" src={uploadedImage} className='interact dropzone' alt="Uploaded" style={{height:"50%",width:"50%"}} 
           
           />
         )}
+        <button onClick={getCor}> click me to get cords</button>
     </main>
   );
 }
+
