@@ -42,7 +42,7 @@ Feel free to explore and fork the repository for your own usage or contribute to
 
 [Explore Certificate Generator](https://github.com/lokesh-katari/certficate-generator)
 
-##Demo
+## Demo
 
 https://github.com/lokesh-katari/certficate-generator/assets/111894942/1635b2c6-d8d0-46ba-b454-8dd0989202a3
 
