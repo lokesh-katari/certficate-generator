@@ -63,16 +63,9 @@ export default function Home2() {
   
   const sendJSONData = async (jsonData: any[]): Promise<any> => {
     try {
-      // const result = await fetch('/api', {
-      //   method: 'POST',
-      //   headers:{
-      //     'Content-Type': 'application/json',
-      //   },
-
-      //   body: JSON.stringify(jsonData),
-      // });
+   
       setshowComp(true)
-      // return await result.json();
+   
     } catch (error) {
       throw new Error('Error uploading file:');
     }
@@ -80,17 +73,15 @@ export default function Home2() {
 
   return (
     <>
-      <main>
-      <h1>Upload CSV as JSON</h1>
-      <form onSubmit={onSubmit}>
-        <input type="file" name="file" onChange={onFileChange} />
-        <button type="submit">Upload JSON</button>
+      <h1 className="font-extrabold text-4xl text-center">Certificate Generator</h1>
+      <main className="bg-blue-300 flex flex-col  justify-center items-center h-96 w-screen">
+      <form className="flex b- flex-col" onSubmit={onSubmit}>
+        <input className="bg-blue-400 rounded-2xl" type="file" name="file" onChange={onFileChange} />
+        <button className="px-6 py-4 bg-blue-500 rounded-2xl m-4" type="submit">Upload CSV</button>
       </form>
     </main>
     {showComp&&<>
-     <h1>
-      this is comp
-     </h1>
+     
     <Home jsonData={jsonData}/>
     </>
       

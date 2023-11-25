@@ -10,15 +10,16 @@ export async function POST(req:any){
     let file2 = data.get('cords');
     let parsedData = JSON.parse(file2);
     // console.log();
-    let jsonData = parsedData.data.jsonData[0][0]
-    console.log("this is josn",jsonData)
-    
-    let qrUrl = jsonData['Google Cloud Skills Boost Profile URL'];
-    let name = jsonData['Student Name'];
-    
     if (!file) {
         return NextResponse.json({ "message": "no image found", success: false })
     }
+    for(let i:number=0;i<parsedData.data.jsonData[0].length-1;i++){
+      let jsonData = parsedData.data.jsonData[0][i]
+    // console.log("this is josn",jsonData)
+    
+    let qrUrl = jsonData['Google Cloud Skills Boost Profile URL'];
+    let name = jsonData['STUDENT NAME'];
+    
     const byteData= await file.arrayBuffer();
     const buffer= Buffer.from(byteData);
     const filePath = path.join(process.cwd(), 'public',file.name);
@@ -27,6 +28,7 @@ export async function POST(req:any){
     // let a=await overlayTextOnImage(filePath,"50","50","lokesh");
     // console.log(a);
     await overlayTextOnImage(filePath,parsedData.X,parsedData.Y,name,qrUrl);
+    }
     return NextResponse.json({"meesage":"file uploaded", success:true})
 
 }
@@ -45,12 +47,12 @@ const overlayTextOnImage = async (filePath:string, xPercentage:number, yPercenta
    
     const qrCodeBuffer = await qr.toBuffer(qrCodeUrl, {
       errorCorrectionLevel: "H",
-      scale: 1.5,
+      scale: 2.0,
     });
     const qrCodeOverlay = {
       input: qrCodeBuffer,
-      left:1000,
-      top:50,
+      left:1008,
+      top:88,
       gravity: "north",
     };
     const svgBuffer = Buffer.from(svgImage);
@@ -63,7 +65,7 @@ const overlayTextOnImage = async (filePath:string, xPercentage:number, yPercenta
         },
         qrCodeOverlay,
       ])
-      .toFile("sammy-text-overlay1.png");
+      .toFile(`D:/Typescript/learnings/certficate-generator/public/images/${text}.png`);
     console.log(image);
   } catch (error) {
     console.error("Error overlaying text on image:", error);

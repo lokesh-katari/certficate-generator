@@ -3,16 +3,23 @@
 import React from 'react';
 import { useState, ChangeEvent, FormEvent ,useEffect} from 'react';
 import interact from 'interactjs';  
+import { useRouter } from 'next/navigation';
+import Download from '../download/page';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 interface Position{
   x:number,
   y:number
  }
 export default function Home(jsonData:any) {
+  let router = useRouter();
   let inputElement = <div id="var" className="draggable itemA" style={{marginTop:"10px"}}>name</div>
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [input, setinput] = useState <Array<JSX.Element>>([inputElement])
+  const [loading, setloading] = useState <boolean>(false);
+  const [openDownload,setopenDownload] = useState<boolean>(false);
   const [position,setPosition ] = useState<Position >({
     x:0,
     y:0
@@ -46,9 +53,11 @@ export default function Home(jsonData:any) {
   };
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setloading(true)
     await getCor();
     if (!file) {
       console.error('No file selected');
+      setloading(false)
       return;
     }
 
@@ -76,6 +85,9 @@ console.log(data.get('file'));
 
       if (parsedResult.success) {
         alert('File uploaded successfully');
+        // setopenDownload(true)
+        
+        // setopenDownload(true);
       }
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -107,7 +119,7 @@ console.log(data.get('file'));
     
     
     let newInput =    <div id="var" className="draggable itemA" style={{marginTop:"10px"}}><input type='text' /></div>
-   setinput([...input,newInput])
+  //  setinput([...input,newInput])
 }
 const remInp = () => {
   console.log("remove input");
@@ -154,34 +166,46 @@ const remInp = () => {
   }, [])
 
   return (
-    <main>
-   
-      <form onSubmit={onSubmit}>
-        <input
-          type="file"
-          name="file"
-          onChange={onFileChange}
-        />
-        <button type="submit">Upload Image</button>
-      </form>
-      <button className='p-5 bg-slate-600 text-xl text-white' onClick={addInp}>+</button>
-      <button className='p-5 bg-slate-600 text-xl text-white' onClick={remInp}>-</button>
-      {
-        input.map((element,index)=>{
-         return React.cloneElement(element, { key: index })
-        })
-      }
-      {/* <div id="var" className="draggable itemA" style={{marginTop:"10px"}}>
+   <div className='flex justify-center items-center flex-col mt-4'>
 
-        <input type='text' />
-      </div> */}
-      {uploadedImage && (
-          <img id="image" src={uploadedImage} className='interact dropzone' alt="Uploaded" style={{height:"50%",width:"50%"}} 
-          
-          />
-        )}
-        <button onClick={getCor}> click me to get cords</button>
-    </main>
+
+
+   
+   <form onSubmit={onSubmit} className='gap-4'>
+     <input className='bg-blue-400 rounded-2xl'
+       type="file"
+       name="file" 
+       onChange={onFileChange}
+     />
+     <button type="submit" className='bg-blue-400 rounded-2xl mx-4 p-2'>Upload Image</button>
+   </form>
+  <div className='mt-4'>
+  <button className='p-5 bg-slate-600 text-2xl text-white mx-6 rounded-xl' onClick={addInp}>+</button>
+   <button className='p-5 bg-slate-600 text-2xl text-white rounded-xl' onClick={remInp}>-</button>
+  </div>
+   {
+     input.map((element,index)=>{
+      return React.cloneElement(element, { key: index })
+     })
+   }
+   {/* <div id="var" className="draggable itemA" style={{marginTop:"10px"}}>
+
+     <input type='text' />
+   </div> */}
+   {uploadedImage && (
+       <img id="image" src={uploadedImage} className='interact dropzone' alt="Uploaded" style={{height:"50%",width:"50%"}} 
+       
+       />
+     )}
+     <button onClick={getCor}>click me to get cors</button>
+  {/* {
+   loading ?  <Download open={openDownload} /> :
+   <Box sx={{ display: 'flex' ,height:'100vh',width:'100vw',justifyContent:'center',alignItems:'center'}}>
+   <CircularProgress />
+ </Box>
+  } */}
+
+   </div>
   );
 }
 
